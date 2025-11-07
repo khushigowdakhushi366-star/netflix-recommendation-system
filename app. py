@@ -1,0 +1,16 @@
+import pandas as pd
+import streamlit as st
+
+# Load dataset
+df = pd.read_csv("netflix_titles.csv")
+
+st.title("Netflix Movie Recommendation System")
+
+# Select a genre
+genre = st.selectbox("Choose a genre", df['listed_in'].dropna().unique())
+
+# Filter movies by genre
+filtered = df[df['listed_in'].str.contains(genre, na=False)]
+
+st.write(f"Found {len(filtered)} movies in {genre} genre:")
+st.dataframe(filtered[['title', 'release_year', 'type']].head(10))
